@@ -13,18 +13,17 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
+      - name: 🟢 Setup Node.js & Yarn
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18
+          cache: 'yarn'
 
-      - name: 📦 Install Dependencies
-        run: |
-          npm install --legacy-peer-deps --force
+      - name: 📦 Install Dependencies (Yarn)
+        run: yarn install --network-concurrency 1
 
       - name: 🏗️ Build Expo Web Static
-        run: |
-          npx expo export -p web || npx expo export --platform web
+        run: npx expo export --platform web
 
       - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v4
