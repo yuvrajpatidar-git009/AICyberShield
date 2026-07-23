@@ -16,14 +16,15 @@ jobs:
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
 
       - name: 📦 Install Dependencies
         run: |
-          npm install --legacy-peer-deps
+          npm install --legacy-peer-deps --force
 
       - name: 🏗️ Build Expo Web Static
-        run: npx expo export -p web
+        run: |
+          npx expo export -p web || npx expo export --platform web
 
       - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v4
