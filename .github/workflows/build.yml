@@ -1,0 +1,33 @@
+name: Build Web Assets
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install Dependencies & Missing Modules
+        run: |
+          npm install --legacy-peer-deps
+          npm install ajv@^8.12.0 ajv-keywords@^5.1.0 react-native-get-random-values --save-dev --legacy-peer-deps
+
+      - name: 🏗️ Build Expo Web Static
+        run: npx expo export --platform web
+
+      - name: 📤 Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build-dist
+          path: dist
