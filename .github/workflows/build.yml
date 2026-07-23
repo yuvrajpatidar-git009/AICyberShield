@@ -10,21 +10,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: 🟢 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      - name: 📦 Install Dependencies
+        run: |
+          npm install --legacy-peer-deps
+          npm install ajv@^8.0.0 ajv-keywords@^5.0.0 --save-dev
 
-      - name: Build Web
-        run: npx expo export -p web
+      - name: 🏗️ Build Expo Web Static
+        run: npx expo export -p web --no-clear
 
-      - name: Upload Artifact
+      - name: 📤 Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
           name: web-build-dist
